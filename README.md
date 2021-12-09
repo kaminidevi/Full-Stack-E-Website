@@ -4,14 +4,14 @@ Created an Ecommerce Website for an Admin Use
 
 Follow these steps to run this project in Visual studio Code
 
-Run: npm init, enter
+1.Run: npm init, enter
 
-npm install express, enter
+2.npm install express, enter
 
-npm install better-sqlite3, enter
+3.npm install better-sqlite3, enter
 
-npm install -g nodemon, enter
+4.npm install -g nodemon, enter
 
-nodemon index, enter
+5.nodemon index, enter
 
 now open your browser and write localhost:3000 and hit enter, the website will be opened
