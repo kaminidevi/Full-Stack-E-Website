@@ -1,0 +1,179 @@
+{
+	"info": {
+		"_postman_id": "70369f26-abea-45bf-a662-4998ecb5971b",
+		"name": "Test the products",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add a product",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"if(!pm.environment.has('mockData')){\r",
+							"   let mockData =[\r",
+							"    {\r",
+							"        \"productName\": \"Snack Plant\",\r",
+							"        \"productImage\": \"https://www.plantagen.se/dw/image/v2/BCMR_PRD/on/demandware.static/-/Sites-inriver-catalog/default/dw86e0ddc1/images/large/sansevieria-Superba-10cm-510886.jpg?sw=256&sfrm=jpg\",\r",
+							"        \"productDescription\": \"Snake plants can absorb cancer-causing pollutants, including CO2, benzene, formaldehyde, xylene, and toluene.\",\r",
+							"        \"productPrice\": 50.00\r",
+							"    },\r",
+							"    {\r",
+							"        \"productName\": \"Snack flower\",\r",
+							"        \"productImage\": \"https://www.plantagen.se/dw/image/v2/BCMR_PRD/on/demandware.static/-/Sites-inriver-catalog/default/dw86e0ddc1/images/large/sansevieria-Superba-10cm-510886.jpg?sw=256&sfrm=jpg\",\r",
+							"        \"productDescription\": \"Snake plants can absorb cancer-causing pollutants, including CO2, benzene, formaldehyde, xylene, and toluene.\",\r",
+							"        \"productPrice\": 150.00\r",
+							"    }\r",
+							"   ];\r",
+							"    pm.environment.set('mockData',JSON.stringify(mockData));\r",
+							"\r",
+							" pm.environment.set('counter', '0');\r",
+							"}\r",
+							"\r",
+							"let mockData = JSON.parse(pm.environment.get('mockData'));\r",
+							"let counter = +pm.environment.get('counter');\r",
+							"\r",
+							"let personToCreate = mockData[counter];\r",
+							"for(let key in personToCreate){\r",
+							"    let val = personToCreate[key];\r",
+							"    pm.environment.set(key,val);\r",
+							"}\r",
+							"   "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let mockData = JSON.parse(pm.environment.get('mockData'));\r",
+							"let counter = +pm.environment.get('counter');\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.test('We should get a change count of 1', () => {\r",
+							" pm.expect(response.changes).to.equal(1);\r",
+							"});\r",
+							"pm.test('we should add the id of the created product',() => {\r",
+							" pm.expect(response.lastInsertRowid).to.be.a('number');\r",
+							" pm.expect(response.lastInsertRowid).to.be.above(0);\r",
+							"});\r",
+							"pm.environment.set('mockData',JSON.stringify(mockData));\r",
+							"console.log(mockData[counter]);\r",
+							"\r",
+							"counter++;\r",
+							"pm.environment.set('counter', counter);\r",
+							"\r",
+							"if(mockData[counter]){\r",
+							"postman.setNextRequest('Add a product');\r",
+							"}\r",
+							"else{\r",
+							"    pm.environment.set('counter',0);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"productName\": \"{{productName}}\",\r\n   \"productImage\": \"{{productImage}}\",\r\n   \"productDescription\": \"{{productDescription}}\",\r\n   \"productPrice\": {{productPrice}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/productsList",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"productsList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a product",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let mockData = JSON.parse(pm.environment.get('mockData'));\r",
+							"let counter = +pm.environment.get('counter');\r",
+							"\r",
+							"let personToGet = mockData[counter];\r",
+							"\r",
+							"pm.environment.set('id',personToGet.id);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let mockData = JSON.parse(pm.environment.get('mockData'));\r",
+							"let counter = +pm.environment.get('counter');\r",
+							"\r",
+							"let personToGet = mockData[counter];\r",
+							"\r",
+							"personToGet.id = null;\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.test('Expect product' + personToGet.id + 'to have db data identical to mockdata used to create it',() => {\r",
+							"    console.log(response);\r",
+							"    console.log(personToGet);\r",
+							" pm.expect(response).to.deep.equal({personToGet});\r",
+							"\r",
+							"});\r",
+							"counter++;\r",
+							"pm.environment.set('counter', counter);\r",
+							"\r",
+							"if(mockData[counter]){\r",
+							"postman.setNextRequest('Get a product');\r",
+							"}\r",
+							"else{\r",
+							"    pm.environment.set('counter',0);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/productsList/{{id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"productsList",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

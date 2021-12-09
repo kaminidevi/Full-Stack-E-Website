@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto+Slab&family=Special+Elite&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <title>K-Botique</title>
+</head>
+
+<body>
+  <header>
+    <h2>Flowers and Plants Botique</h2>
+    <nav>
+      <a class="active" href="index.html">About Us</a>
+      <a href="products.html">Products</a>
+      <a href="storeLocation.html">Stores</a>
+      <a href="stockList.html">Stock List</a>
+    </nav>
+    <h2>Store Locations</h2>
+  </header>
+  <div class="Find-all-Stores"></div>
+  <button class="Add-stores">Add Store</button>
+  <section>
+    <form class="add-stores" action="/api/storeAddress" method="post">
+      <h2>Add a Store </h2>
+      <label>
+        Store Name:
+        <input type="text" placeholder="storename" name="storeName" required minlength="1">
+      </label>
+      <label>
+        Street Name:
+        <input type="text" placeholder="streetname" name="streetName">
+      </label>
+      <label>
+        postCode:
+        <input type="text" placeholder="postcode" name="postCode">
+      </label>
+      <label>
+        City:
+        <input type="text" placeholder="city" name="city">
+      </label>
+      <label>
+        Phone No:
+        <input type="text" placeholder="phone.no" name="phoneNo">
+      </label>
+      <input type="submit" value="Add Store">
+    </form>
+
+    <form class="change-store-form" action="/api/storeAddress" method="put">
+      <h2>Change the data in Store:</h2>
+      <input type="hidden" name="id">
+      <label>
+        Store Name:
+        <input type="text" placeholder="storename" name="storeName" required minlength="1">
+      </label>
+      <label>
+        Street Name:
+        <input type="text" placeholder="streetname" name="streetName" required minlength="1">
+      </label>
+      <label>
+        PostCode:
+        <input type="text" placeholder="postcode" name="postCode" required minlength="1">
+      </label>
+      <label>
+        City:
+        <input type="text" placeholder="city" name="city" required minlength="1">
+      </label>
+      <label>
+        Phone No:
+        <input type="text" placeholder="phone.no" name="phoneNo">
+      </label>
+      <input type="submit" value="Change Store">
+    </form>
+  </section>
+  <script src="main.js"></script>
+</body>
+<footer>
+  <th>© 2021 k-botique</th>
+  <td><a href=info@k-botique.se>Contact us</a></td>
+  <td>Tel: 0002274937</td>
+</footer>
+
+</html>

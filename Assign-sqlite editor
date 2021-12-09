@@ -1,0 +1,39 @@
+select * from productsList;
+
+select * from stocks;
+
+select * from storeAddress;
+
+create view outOfStock as
+select 
+stocks.productId as productId,
+productsList.id,
+productsList.productName as productName,
+storeAddress.id as storesID,
+stocks.storeId as storeId,
+storeAddress.storeName as storeName,
+stocks.storeQuantity as avaiableStock
+from stocks, storeAddress, productsList
+where productId = productsList.id and storeId = storesID and avaiableStock is null
+order by storeName, productId
+
+select * from outOfStock;
+
+create view avaibleProductsInStore as
+select 
+stocks.productId as productId,
+productsList.id,
+productsList.productName as productName,
+storeAddress.id as storesID,
+stocks.storeId as storeId,
+storeAddress.storeName as storeName,
+stocks.storeQuantity as avaiableStock
+from stocks, storeAddress, productsList
+where productId = productsList.id and storeId = storesID and avaiableStock is not null
+order by storeName, productId
+
+select * from avaibleProductsInStore;
+
+select type, name from sqlite_schema
+where type in ("table","view") 
+and name not like "sqlite_%";
